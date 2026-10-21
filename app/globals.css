@@ -1,0 +1,99 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-display: var(--font-anton), Impact, "Arial Narrow", sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+@theme {
+  --color-ink: #050a1c;
+  --color-navy: #0b1a46;
+  --color-navy-2: #12245e;
+  --color-bull: #e4002b;
+  --color-sun: #ffc906;
+  --color-silver: #cfd3dc;
+  --color-cream: #f4f1ea;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html {
+  background: #050a1c;
+  overflow-x: clip;
+}
+body {
+  background: #0b1a46;
+  color: var(--color-cream);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+::selection {
+  background: var(--color-sun);
+  color: var(--color-navy);
+}
+
+@media (pointer: fine) {
+  html,
+  body,
+  a,
+  button {
+    cursor: none;
+  }
+}
+
+/* Film grain over everything. A viewport-sized layer whose texture shifts in
+   a few discrete steps — far cheaper than translating an oversized layer. */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  pointer-events: none;
+  opacity: 0.09;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain 1.2s steps(1) infinite;
+}
+@keyframes grain {
+  0%, 100% { background-position: 0 0; }
+  25% { background-position: -60px 40px; }
+  50% { background-position: 80px -30px; }
+  75% { background-position: -30px -70px; }
+}
+
+/* Diamond lattice — a nod to the can's artwork */
+.lattice {
+  background-image:
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.035) 0 1px, transparent 1px 56px),
+    repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.035) 0 1px, transparent 1px 56px);
+}
+
+/* Keep `color` for the stroke; only the fill goes transparent. */
+.text-outline {
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 1.5px currentColor;
+}
+
+.eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grain {
+    animation: none;
+  }
+}
